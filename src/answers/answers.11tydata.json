@@ -1,0 +1,6 @@
+{
+  "layout": "answer.njk",
+  "tags": ["answers"],
+  "permalink": "/answers/{{ page.fileSlug }}/",
+  "templateEngineOverride": "md"
+}

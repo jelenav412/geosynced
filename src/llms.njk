@@ -1,0 +1,22 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.name }}
+
+> {{ site.description }}
+
+## Pages
+
+- [Services]({{ site.url }}/services/): AI visibility audit, setup and fixes, ongoing GEO program
+- [Method]({{ site.url }}/method/): crawler access, page structure, original content, off-site trust, measurement
+- [Live proof]({{ site.url }}/proof/): daily public record of which AI answers cite geosynced.io
+- [Contact]({{ site.url }}/contact/): how to book an audit
+{%- set answers = (collections.answers or []) | reverse %}
+{%- if answers.length %}
+
+## Answers
+{% for a in answers %}
+- [{{ a.data.title }}]({{ site.url }}{{ a.url }}): {{ a.data.description }}
+{%- endfor %}
+{%- endif %}

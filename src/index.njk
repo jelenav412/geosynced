@@ -1,0 +1,121 @@
+---
+layout: base.njk
+description: geosynced is a GEO and AEO consultancy. We help businesses get cited in ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews, and we track our own citations in public.
+faq:
+  - q: What is generative engine optimization (GEO)?
+    a: GEO is the work of making your business easy for AI search engines to find, understand and cite when they answer a question. Where classic SEO aims for a ranking on a results page, GEO aims for a mention inside the answer itself.
+  - q: How is GEO different from AEO?
+    a: In practice they overlap almost completely. AEO (answer engine optimization) is the older term and also covers featured snippets and voice assistants. GEO focuses on generative AI answers. We do both, and we measure both the same way, by checking which sources the answers cite.
+  - q: Do I still need SEO?
+    a: Yes. AI search engines mostly pull from pages that are already crawlable, indexed and trusted. GEO builds on good SEO rather than replacing it.
+  - q: How do you measure results?
+    a: We run a fixed set of real buyer questions through AI search engines on a schedule and record which sources each answer cites. You see when your pages start appearing, for which questions, and in which engines. Our own site is tracked the same way, in public, on the Live proof page.
+  - q: How long does it take to see results?
+    a: Technical fixes, such as letting AI crawlers in, can show up within days or weeks. Earning citations for competitive questions usually takes longer, because it depends on content and on what other sites say about you. We show you the data as it comes in rather than promising a date.
+---
+<section class="hero">
+  <div>
+    <h1>Be the source AI answers cite.</h1>
+    <p class="lede">When someone asks ChatGPT, Perplexity or Google's AI Overview about your field, the answer names a handful of sources. We make sure your business is one of them, and we prove it with live data.</p>
+    <div class="actions">
+      <a class="button" href="/contact/">Book a visibility audit</a>
+      <a class="button secondary" href="/proof/">See our live tracker</a>
+    </div>
+  </div>
+
+  <figure class="answer" aria-label="Illustration of an AI search answer that cites your website">
+    <p class="q">Which accounting firm in Novi Sad handles taxes for freelancers?</p>
+    <div class="a">
+      <p>Several firms in Novi Sad work with freelancers on flat-rate (paušal) taxation<a class="c" href="#hero-sources">1</a>. One that publishes a clear fee table and a step-by-step guide for new freelancers is your-firm.rs<a class="c you" href="#hero-sources">2</a>.</p>
+      <p>It's worth comparing whether they also handle VAT registration<a class="c" href="#hero-sources">3</a> and foreign clients<a class="c you" href="#hero-sources">2</a>.</p>
+    </div>
+    <ol id="hero-sources">
+      <li><span class="c">1</span> a business directory</li>
+      <li class="you"><span class="c you">2</span> your-firm.rs: freelancer tax guide</li>
+      <li><span class="c">3</span> a government tax portal</li>
+    </ol>
+    <figcaption class="caption">Illustration. The goal: your page in the sources, not just your name in the text.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="split">
+    <h2>AI answers name a few sources. Everyone else is invisible.</h2>
+    <div>
+      <p>A search results page shows ten links. An AI answer usually cites three to five, and most readers never look further. If your site isn't one of them, you aren't in the conversation, even if you rank well on Google.</p>
+      <p>Getting cited comes down to three things: AI crawlers can read your pages, your pages answer real questions clearly, and other trusted sites back you up. Most businesses have gaps in all three, and almost none are measuring it.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>How we work</h2>
+  <ol class="steps">
+    <li>
+      <h3>Audit</h3>
+      <p>We ask AI search engines the questions your buyers ask, record who gets cited, and check whether AI crawlers can actually read your site.</p>
+    </li>
+    <li>
+      <h3>Fix and build</h3>
+      <p>We fix crawler access, structure and schema, then build the pages AI engines want to cite: clear answers, original data, comparisons.</p>
+    </li>
+    <li>
+      <h3>Track in public</h3>
+      <p>You get a live tracker showing which answers cite you, in which engines, and how that changes week to week.</p>
+    </li>
+  </ol>
+  <p class="actions"><a href="/method/">Read the full method</a></p>
+</section>
+
+<section>
+  <div class="split">
+    <div>
+      <h2>We measure ourselves first</h2>
+      <p class="muted">Our tracker asks AI search engines GEO questions every day and records whether they cite geosynced.io. The results are public, including the days we aren't cited.</p>
+      <p><a href="/proof/">Open the live tracker</a></p>
+    </div>
+    <div>
+      {%- if visibility.hasData and not visibility.isSample %}
+      <div class="figure">
+        <div>
+          <div class="big">{{ visibility.today.rate | percent }}</div>
+          <div class="label">of today's answers cite geosynced.io ({{ visibility.today.cited }} of {{ visibility.today.total }})</div>
+        </div>
+        <div>
+          {{ visibility.daily | pluck("rate") | sparkline(200, 48) | safe }}
+        </div>
+      </div>
+      <p class="small muted">Last checked {{ visibility.lastDate | readableDate }} across {{ visibility.engines | length }} AI search engines.</p>
+      {%- else %}
+      <p class="notice">Tracking starts with the first daily run. This space will show the share of AI answers that cite geosynced.io, updated every morning.</p>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <h2>Questions</h2>
+  {%- for item in faq %}
+  <details>
+    <summary>{{ item.q }}</summary>
+    <p>{{ item.a }}</p>
+  </details>
+  {%- endfor %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for item in faq %}
+      { "@type": "Question", "name": {{ item.q | dump | safe }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump | safe }} } }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+</section>
+
+<section>
+  <h2>Find out where you stand</h2>
+  <p class="lede">The audit shows which AI answers cite you today, which cite your competitors, and what's blocking you.</p>
+  <div class="actions"><a class="button" href="/contact/">Book a visibility audit</a></div>
+</section>

@@ -1,0 +1,86 @@
+---
+layout: base.njk
+title: Live proof
+permalink: /proof/
+description: A public, daily record of whether AI search engines cite geosynced.io when asked about generative engine optimization.
+---
+<div class="page">
+  <h1>Live proof</h1>
+  <p class="lede">Every day our tracker asks AI search engines the same set of GEO questions and records which websites each answer cites. This page shows whether geosynced.io is one of them.</p>
+
+  {%- if not visibility.hasData %}
+  <p class="notice">Tracking starts with the first daily run. Results will appear here the morning after it runs.</p>
+
+  {%- else %}
+  {%- if visibility.isSample %}
+  <p class="notice">This is sample data from a dry run, shown because no real runs exist yet. It is not a real measurement.</p>
+  {%- endif %}
+
+  <div class="figure">
+    <div>
+      <div class="big">{{ visibility.today.rate | percent }}</div>
+      <div class="label">of answers on {{ visibility.lastDate | readableDate }} cited geosynced.io</div>
+    </div>
+    <div>
+      <div class="big">{{ visibility.promptsCitedToday }}<span class="muted" style="font-size:0.45em"> / {{ visibility.prompts | length }}</span></div>
+      <div class="label">questions where at least one engine cited us</div>
+    </div>
+    <div>
+      {{ visibility.daily | pluck("rate") | sparkline(220, 56) | safe }}
+      <div class="label small">Share of answers citing us, {{ visibility.firstDate | readableDate }} to {{ visibility.lastDate | readableDate }} ({{ visibility.days }} days)</div>
+    </div>
+  </div>
+
+  <h2>Question by question</h2>
+  <p class="muted">Latest run. "Cited" means one of our pages appeared in the answer's sources; the number is its position in that list.</p>
+  <div class="table-wrap">
+    <table class="tracker">
+      <thead>
+        <tr>
+          <th scope="col">Question asked</th>
+          {%- for e in visibility.engines %}
+          <th scope="col">{{ e.label }}</th>
+          {%- endfor %}
+          <th scope="col">Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for p in visibility.prompts %}
+        <tr>
+          {%- set ourPage = collections.answers | answerFor(p.id) %}
+          <td class="prompt">{{ p.text }}<span class="topic">{{ p.topic }}{% if p.firstCitedOn %}, first cited {{ p.firstCitedOn | readableDate }}{% endif %}</span>
+            {%- if ourPage %}<span class="topic">Our page: <a href="{{ ourPage.url }}">{{ ourPage.data.title }}</a>, published {{ ourPage.date | readableDate }}</span>{% endif %}</td>
+          {%- for e in p.byEngine %}
+          <td>
+            {%- if e.status == "cited" %}<span class="status cited">Cited, #{{ e.position }}</span>
+            {%- elif e.status == "not-cited" %}<span class="status not-cited">Not cited</span>
+            {%- elif e.status == "error" %}<span class="status error">Check failed</span>
+            {%- else %}<span class="status missing">Not checked</span>{% endif %}
+            {%- if e.topSources.length %}<span class="sources">Cited instead: {{ e.topSources | join(", ") }}</span>{% endif %}
+          </td>
+          {%- endfor %}
+          <td>{{ p.history | sparkline(90, 24) | safe }}</td>
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {%- if visibility.topDomains.length %}
+  <h2>Who AI engines cite instead</h2>
+  <p class="muted">Most-cited other websites across all questions in the latest run. These are the sources to learn from, or to get mentioned on.</p>
+  <ul class="domains">
+    {%- for d in visibility.topDomains %}
+    <li><span>{{ d.domain }}</span><span>{{ d.count }}</span></li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+  {%- endif %}
+
+  <div class="prose">
+    <h2>How this is measured</h2>
+    <p>The tracker sends each question to AI search engines through their official APIs and stores the sources each answer cites. API answers can differ from what you see in the consumer apps, which also personalise results, so treat this as a consistent benchmark rather than an exact copy of any one person's screen.</p>
+    <p>Nothing on this page is edited by hand. The question list, the raw results and the code are all versioned, and every day's data is kept.</p>
+    <p>Want the same tracking for your business? <a href="/contact/">Get in touch</a>.</p>
+  </div>
+</div>

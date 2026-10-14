@@ -1,0 +1,65 @@
+---
+layout: base.njk
+---
+<article class="page">
+  <div class="prose">
+    <p class="small muted"><a href="/answers/">Answers</a></p>
+    <h1>{{ title }}</h1>
+    <p class="small muted">Updated <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate }}</time> by {{ site.name }}</p>
+
+    {{ content | safe }}
+
+    {%- if faq and faq.length %}
+    <section class="faq">
+      <h2>Related questions</h2>
+      {%- for item in faq %}
+      <details>
+        <summary>{{ item.q }}</summary>
+        <p>{{ item.a }}</p>
+      </details>
+      {%- endfor %}
+    </section>
+    {%- endif %}
+
+    {%- if sources and sources.length %}
+    <div class="footnotes">
+      <p>Sources</p>
+      <ol>
+        {%- for s in sources %}
+        <li><a href="{{ s.url }}" rel="nofollow">{{ s.title }}</a></li>
+        {%- endfor %}
+      </ol>
+    </div>
+    {%- endif %}
+
+    <p class="footnotes">We track whether AI search engines cite this page for the question “{{ question }}”. <a href="/proof/">See the live results</a>.</p>
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": {{ title | dump | safe }},
+      "description": {{ description | dump | safe }},
+      "datePublished": "{{ page.date | isoDate }}",
+      "dateModified": "{{ page.date | isoDate }}",
+      "mainEntityOfPage": "{{ site.url }}{{ page.url }}",
+      "author": { "@id": "{{ site.url }}/#org" },
+      "publisher": { "@id": "{{ site.url }}/#org" }
+    }
+    {%- if faq and faq.length %},
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for item in faq %}
+        { "@type": "Question", "name": {{ item.q | dump | safe }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump | safe }} } }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ]
+    }
+    {%- endif %}
+  ]
+}
+</script>

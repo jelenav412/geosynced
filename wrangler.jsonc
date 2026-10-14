@@ -1,0 +1,11 @@
+// Cloudflare config: serves the built 11ty site (_site/) as static files.
+// Cloudflare reads this when it builds from GitHub, so you don't need to touch it.
+{
+  "name": "geosynced",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

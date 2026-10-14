@@ -1,0 +1,12 @@
+node_modules/
+_site/
+.wrangler/
+.env
+.DS_Store
+
+# Scratch files the draft workflow uses for the PR text
+.draft-pr-body.md
+.draft-pr-title.txt
+
+# Dry-run sample data: for previewing locally only, never published
+data/runs-sample/

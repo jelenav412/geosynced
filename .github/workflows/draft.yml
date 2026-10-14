@@ -1,0 +1,67 @@
+# Weekly content draft.
+# Picks the tracked question where geosynced.io is least cited and has no page yet,
+# asks Claude to draft an answer page, and opens it as a DRAFT pull request.
+# Nothing is published until you review the PR, fill in the "NEEDS INPUT" markers,
+# mark it ready and merge it.
+#
+# Setup:
+#   1. Repo Settings > Secrets and variables > Actions > New repository secret: ANTHROPIC_API_KEY
+#   2. Repo Settings > Actions > General > Workflow permissions:
+#      tick "Allow GitHub Actions to create and approve pull requests"
+#   Optional variable ANTHROPIC_MODEL to change the model.
+
+name: Draft content
+
+on:
+  schedule:
+    - cron: "43 6 * * 1"   # Mondays 06:43 UTC, after the daily tracker run
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Question id from tracker/prompts.json (leave empty to auto-pick)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Write draft
+        id: draft
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+          PROMPT_ID: ${{ github.event.inputs.prompt }}
+        run: |
+          if [ -n "$PROMPT_ID" ]; then
+            node scripts/draft.mjs --prompt="$PROMPT_ID"
+          else
+            node scripts/draft.mjs
+          fi
+
+      - name: Open draft pull request
+        if: steps.draft.outputs.slug != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="draft/${{ steps.draft.outputs.prompt_id }}"
+          git config user.name "geosynced-drafter"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "${{ steps.draft.outputs.file }}"
+          git commit -m "Draft answer page: ${{ steps.draft.outputs.slug }}"
+          git push -u origin "$BRANCH"
+          gh pr create --draft \
+            --title "$(cat .draft-pr-title.txt)" \
+            --body-file .draft-pr-body.md \
+            --base main --head "$BRANCH"

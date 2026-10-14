@@ -1,0 +1,17 @@
+{
+  "_readme": "Edit this file to change what the tracker checks. 'domains' are counted as 'you'. Keep prompts phrased the way a real buyer would ask. Changing a prompt's text keeps its history only if you keep the same id.",
+  "brand": {
+    "name": "geosynced",
+    "domains": ["geosynced.io"]
+  },
+  "prompts": [
+    { "id": "what-is-geo", "topic": "Education", "text": "What is generative engine optimization and how is it different from SEO?" },
+    { "id": "geo-vs-aeo", "topic": "Education", "text": "What is the difference between GEO and AEO?" },
+    { "id": "get-cited-chatgpt", "topic": "How-to", "text": "How do I get my website cited by ChatGPT and Perplexity?" },
+    { "id": "measure-ai-visibility", "topic": "How-to", "text": "How can a small business measure whether AI search engines mention it?" },
+    { "id": "ai-crawlers-cloudflare", "topic": "Technical", "text": "Should I allow AI crawlers like GPTBot and PerplexityBot on my Cloudflare site?" },
+    { "id": "llms-txt", "topic": "Technical", "text": "Does llms.txt help with AI search visibility?" },
+    { "id": "geo-agency-europe", "topic": "Buying", "text": "Which GEO consultancies help small and mid-sized businesses in Europe?" },
+    { "id": "geo-agency-balkans", "topic": "Buying", "text": "Is there a generative engine optimization consultant in Serbia or the Balkans?" }
+  ]
+}

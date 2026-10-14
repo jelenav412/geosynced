@@ -1,0 +1,33 @@
+# geosynced.io: AI search crawlers are welcome. That's the whole point of this site.
+# Note: Cloudflare can override this file with its own "managed robots.txt"
+# and can block AI bots at the edge. Check Security > Bots in the dashboard.
+
+User-agent: *
+Allow: /
+
+# AI search and retrieval crawlers (listed explicitly so intent is unambiguous)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://geosynced.io/sitemap.xml

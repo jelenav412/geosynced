@@ -1,0 +1,7 @@
+[
+  { "label": "Services", "url": "/services/" },
+  { "label": "Method", "url": "/method/" },
+  { "label": "Answers", "url": "/answers/" },
+  { "label": "Live proof", "url": "/proof/" },
+  { "label": "Contact", "url": "/contact/" }
+]

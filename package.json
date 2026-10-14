@@ -1,0 +1,19 @@
+{
+  "name": "geosynced",
+  "version": "0.1.0",
+  "private": true,
+  "description": "geosynced.io: GEO / AEO consultancy site with a live AI-citation tracker",
+  "type": "module",
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve",
+    "track": "node scripts/track.mjs",
+    "track:dry": "node scripts/track.mjs --dry-run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}

@@ -1,0 +1,26 @@
+---
+layout: base.njk
+title: Answers
+permalink: /answers/
+description: Plain answers to common questions about generative engine optimization, AI search visibility and getting cited by ChatGPT, Perplexity and Google AI Overviews.
+---
+<div class="page">
+  <div class="prose">
+    <h1>Answers</h1>
+    <p class="lede">Straight answers to the questions people ask about getting found in AI search. Each page is tracked, so you can see whether AI engines cite it.</p>
+  </div>
+
+  {%- set answers = (collections.answers or []) | reverse %}
+  {%- if answers.length %}
+  <ul class="answer-list">
+    {%- for a in answers %}
+    <li>
+      <a href="{{ a.url }}">{{ a.data.title }}</a>
+      <p class="muted">{{ a.data.description }}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+  {%- else %}
+  <p class="notice">The first answers are being written. Check back soon, or see <a href="/method/">how we work</a> in the meantime.</p>
+  {%- endif %}
+</div>
